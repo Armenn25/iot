@@ -155,6 +155,7 @@
         <li><a href="#db">10. Database Servisi</a></li>
         <li><a href="#cve">11. CVE Pretraga</a></li>
         <li><a href="#vulns">12. Katalog Ranjivosti</a></li>
+        <li><a href="#local">13. Lokalna enumeracija</a></li>
     </ul>
 </nav>
 
@@ -213,7 +214,7 @@ dig TXT example.com +short
 <span class="comment"># Zone Transfer pokušaj</span>
 dig AXFR example.com @ns1.example.com</code>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost:  DNS Zone Transfer (AXFR)</h4>
         <p><strong>Opis:</strong> DNS server dozvoljava AXFR upit bilo kome, otkrivajući sve DNS zapise.</p>
@@ -221,7 +222,7 @@ dig AXFR example.com @ns1.example.com</code>
         <p class="fix">Preporuka:  Ograničiti AXFR samo na autorizovane secondary DNS servere.</p>
         <span class="tag tag-high">High</span>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost:  Nedostaje SPF/DKIM/DMARC</h4>
         <p><strong>Opis:</strong> Email autentikacioni zapisi nisu konfigurisani u DNS-u.</p>
@@ -229,7 +230,7 @@ dig AXFR example.com @ns1.example.com</code>
         <p class="fix">Preporuka: Implementirati SPF, DKIM i DMARC zapise. </p>
         <span class="tag tag-medium">Medium</span>
     </div>
-
+    
     <h3>Subdomain Enumeration</h3>
     <div class="cmd-block">
         <code><span class="comment"># Subfinder</span>
@@ -264,7 +265,7 @@ nmap -sU --top-ports 100 &lt;IP&gt;
 <span class="comment"># Sken bez pinga (firewall bypass)</span>
 nmap -Pn -sS -p 1-65535 &lt;IP&gt;</code>
     </div>
-
+    
     <h3>NSE Skripte (Safe)</h3>
     <div class="cmd-block">
         <code><span class="comment"># Samo safe skripte</span>
@@ -279,7 +280,7 @@ nmap --script=vuln &lt;IP&gt;
 <span class="comment"># Default skripte + verzije</span>
 nmap -sC -sV &lt;IP&gt;</code>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost:  Otvoreni nepotrebni portovi</h4>
         <p><strong>Opis: </strong> Servisi koji nisu potrebni su dostupni izvana (Telnet, FTP, RDP, itd.).</p>
@@ -287,7 +288,7 @@ nmap -sC -sV &lt;IP&gt;</code>
         <p class="fix">Preporuka:  Zatvoriti nepotrebne portove, koristiti firewall, VPN za administraciju.</p>
         <span class="tag tag-high">High</span>
     </div>
-
+    
     <h3>Tabela čestih portova i rizika</h3>
     <table>
         <tr>
@@ -327,7 +328,7 @@ whatweb https://example.com
 <span class="comment"># HTTPx - batch analiza</span>
 httpx -u https://example.com -title -status-code -tech-detect -tls-grab</code>
     </div>
-
+    
     <h3>Nmap Web Skripte</h3>
     <div class="cmd-block">
         <code><span class="comment"># HTTP security headers check</span>
@@ -339,7 +340,7 @@ nmap -p 80,443 --script=http-methods &lt;IP&gt;
 <span class="comment"># Kompletan web audit</span>
 nmap -p 80,443 --script=http-title,http-headers,http-methods,http-server-header,http-security-headers -sV &lt;IP&gt;</code>
     </div>
-
+    
     <h3>Nikto - Web Vulnerability Scanner</h3>
     <div class="cmd-block">
         <code><span class="comment"># Osnovni sken</span>
@@ -351,7 +352,7 @@ nikto -h https://example.com -p 8443
 <span class="comment"># Output u HTML</span>
 nikto -h https://example.com -o report.html -Format htm</code>
     </div>
-
+    
     <h3>Directory & File Discovery</h3>
     <div class="cmd-block">
         <code><span class="comment"># FFUF - brzi fuzzer</span>
@@ -366,7 +367,7 @@ dirsearch -u https://example.com -e php,html,js,txt
 <span class="comment"># Traženje backup fajlova</span>
 ffuf -u https://example.com/FUZZ -w /usr/share/wordlists/dirb/common.txt -e .bak,. old,.zip,.tar. gz,. sql</code>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost: Nedostaju Security Headers</h4>
         <p><strong>Opis: </strong> HTTP response ne sadrži sigurnosne headere.</p>
@@ -381,7 +382,7 @@ ffuf -u https://example.com/FUZZ -w /usr/share/wordlists/dirb/common.txt -e .bak
         <p class="fix">Preporuka: Dodati sve security headere u web server konfiguraciju.</p>
         <span class="tag tag-medium">Medium</span>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost: Directory Listing Enabled</h4>
         <p><strong>Opis:</strong> Web server prikazuje sadržaj direktorija kada nema index fajla.</p>
@@ -389,7 +390,7 @@ ffuf -u https://example.com/FUZZ -w /usr/share/wordlists/dirb/common.txt -e .bak
         <p class="fix">Preporuka: Onemogućiti directory listing (Options -Indexes u Apache).</p>
         <span class="tag tag-medium">Medium</span>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost: Izloženi . git, .env, backup fajlovi</h4>
         <p><strong>Opis:</strong> Osjetljivi fajlovi dostupni preko weba.</p>
@@ -397,7 +398,7 @@ ffuf -u https://example.com/FUZZ -w /usr/share/wordlists/dirb/common.txt -e .bak
         <p class="fix">Preporuka: Blokirati pristup (. git, .env, *.bak, *.sql) u web server konfiguraciji.</p>
         <span class="tag tag-critical">Critical</span>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost: Server Version Disclosure</h4>
         <p><strong>Opis:</strong> Server header otkriva verziju softvera (Apache/2.4.49, nginx/1.18.0).</p>
@@ -422,7 +423,7 @@ testssl.sh --cipher-per-proto https://example.com
 <span class="comment"># Provjera poznatih ranjivosti</span>
 testssl.sh --vulnerable https://example.com</code>
     </div>
-
+    
     <h3>Nmap SSL Skripte</h3>
     <div class="cmd-block">
         <code><span class="comment"># SSL certifikat info</span>
@@ -434,7 +435,7 @@ nmap -p 443 --script=ssl-enum-ciphers &lt;IP&gt;
 <span class="comment"># Provjera za poznate SSL ranjivosti</span>
 nmap -p 443 --script=ssl-heartbleed,ssl-poodle,ssl-ccs-injection &lt;IP&gt;</code>
     </div>
-
+    
     <h3>OpenSSL manuelna provjera</h3>
     <div class="cmd-block">
         <code><span class="comment"># Testiranje konekcije</span>
@@ -446,7 +447,7 @@ openssl s_client -connect example.com:443 | openssl x509 -noout -dates
 <span class="comment"># Test za SSLv3 (ne bi trebao raditi)</span>
 openssl s_client -connect example.com:443 -ssl3</code>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost: Zastarjeli TLS protokoli (SSLv3, TLS 1.0, TLS 1.1)</h4>
         <p><strong>Opis:</strong> Server podržava stare, nesigurne verzije protokola.</p>
@@ -454,7 +455,7 @@ openssl s_client -connect example.com:443 -ssl3</code>
         <p class="fix">Preporuka: Dozvoliti samo TLS 1.2 i TLS 1.3.</p>
         <span class="tag tag-high">High</span>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost:  Slabi Cipher Suites</h4>
         <p><strong>Opis:</strong> Korištenje DES, 3DES, RC4, NULL, EXPORT cipher-a.</p>
@@ -462,7 +463,7 @@ openssl s_client -connect example.com:443 -ssl3</code>
         <p class="fix">Preporuka:  Koristiti samo moderne ciphers (AES-GCM, ChaCha20).</p>
         <span class="tag tag-high">High</span>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost: Self-Signed / Expired Certificate</h4>
         <p><strong>Opis: </strong> Certifikat nije izdan od pouzdanog CA ili je istekao.</p>
@@ -493,7 +494,7 @@ nmap -p 445 --script=smb-vuln-ms17-010 &lt;IP&gt;
 <span class="comment"># Sve SMB ranjivosti</span>
 nmap -p 445 --script=smb-vuln* &lt;IP&gt;</code>
     </div>
-
+    
     <h3>SMBClient & Enum4linux</h3>
     <div class="cmd-block">
         <code><span class="comment"># Lista shareova (null session)</span>
@@ -508,7 +509,7 @@ enum4linux -a &lt;IP&gt;
 <span class="comment"># CrackMapExec</span>
 crackmapexec smb &lt;IP&gt; --shares</code>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost: SMB Null Session</h4>
         <p><strong>Opis:</strong> Moguće pristupiti SMB resursima bez autentikacije.</p>
@@ -516,7 +517,7 @@ crackmapexec smb &lt;IP&gt; --shares</code>
         <p class="fix">Preporuka:  Onemogućiti null sessions, zahtijevati autentikaciju.</p>
         <span class="tag tag-high">High</span>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost: EternalBlue (MS17-010)</h4>
         <p><strong>Opis:</strong> Kritična ranjivost u SMBv1 koja omogućava remote code execution.</p>
@@ -524,7 +525,7 @@ crackmapexec smb &lt;IP&gt; --shares</code>
         <p class="fix">Preporuka: Instalirati KB4012598 patch, onemogućiti SMBv1.</p>
         <span class="tag tag-critical">Critical</span>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost:  SMB Signing Disabled</h4>
         <p><strong>Opis:</strong> SMB potpisivanje nije obavezno.</p>
@@ -550,7 +551,7 @@ ftp &lt;IP&gt;
 <span class="comment"># Lista fajlova ako anonymous radi</span>
 ls -la</code>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost: FTP Anonymous Login</h4>
         <p><strong>Opis:</strong> FTP server dozvoljava pristup bez kredencijala.</p>
@@ -558,7 +559,7 @@ ls -la</code>
         <p class="fix">Preporuka: Onemogućiti anonymous pristup, koristiti SFTP umjesto FTP.</p>
         <span class="tag tag-high">High</span>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost: FTP Clear-Text</h4>
         <p><strong>Opis:</strong> FTP prenosi kredencijale i podatke u čistom tekstu.</p>
@@ -566,7 +567,7 @@ ls -la</code>
         <p class="fix">Preporuka:  Koristiti SFTP (SSH) ili FTPS (FTP over TLS).</p>
         <span class="tag tag-high">High</span>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost: vsftpd 2.3.4 Backdoor</h4>
         <p><strong>Opis:</strong> Poznati backdoor u verziji 2.3.4 (CVE-2011-2523).</p>
@@ -590,7 +591,7 @@ ssh-audit &lt;IP&gt;
 <span class="comment"># Manuelna konekcija za banner</span>
 nc -v &lt;IP&gt; 22</code>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost:  Slabi SSH algoritmi</h4>
         <p><strong>Opis: </strong> Server podržava zastarjele algoritme (diffie-hellman-group1, ssh-dss, arcfour, blowfish).</p>
@@ -598,7 +599,7 @@ nc -v &lt;IP&gt; 22</code>
         <p class="fix">Preporuka:  Onemogućiti slabe algoritme u sshd_config.</p>
         <span class="tag tag-medium">Medium</span>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost: SSH Root Login</h4>
         <p><strong>Opis:</strong> Direktan root login dozvoljen preko SSH. </p>
@@ -606,7 +607,7 @@ nc -v &lt;IP&gt; 22</code>
         <p class="fix">Preporuka:  PermitRootLogin no u sshd_config.</p>
         <span class="tag tag-medium">Medium</span>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost: SSH Password Authentication</h4>
         <p><strong>Opis: </strong> Dozvoljen login sa lozinkom umjesto ključeva.</p>
@@ -633,7 +634,7 @@ onesixtyone -c /usr/share/wordlists/seclists/Discovery/SNMP/common-snmp-communit
 <span class="comment"># SNMP-check</span>
 snmp-check &lt;IP&gt;</code>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost:  Default SNMP Community String (public/private)</h4>
         <p><strong>Opis:</strong> SNMP koristi default community stringove koji su javno poznati.</p>
@@ -641,7 +642,7 @@ snmp-check &lt;IP&gt;</code>
         <p class="fix">Preporuka:  Promijeniti community stringove, koristiti SNMPv3 sa autentikacijom.</p>
         <span class="tag tag-high">High</span>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost: SNMPv1/v2c bez enkripcije</h4>
         <p><strong>Opis:</strong> Starije verzije SNMP prenose podatke u čistom tekstu. </p>
@@ -663,13 +664,13 @@ nmap -p 3306 --script=mysql-info,mysql-enum,mysql-empty-password -sV &lt;IP&gt;
 <span class="comment"># Pokušaj konekcije</span>
 mysql -h &lt;IP&gt; -u root -p</code>
     </div>
-
+    
     <h3>MSSQL (1433)</h3>
     <div class="cmd-block">
         <code><span class="comment"># Nmap MSSQL</span>
 nmap -p 1433 --script=ms-sql-info,ms-sql-config,ms-sql-empty-password -sV &lt;IP&gt;</code>
     </div>
-
+    
     <h3>PostgreSQL (5432)</h3>
     <div class="cmd-block">
         <code><span class="comment"># Nmap PostgreSQL</span>
@@ -678,7 +679,7 @@ nmap -p 5432 --script=pgsql-brute -sV &lt;IP&gt;
 <span class="comment"># Pokušaj konekcije</span>
 psql -h &lt;IP&gt; -U postgres</code>
     </div>
-
+    
     <h3>Redis (6379)</h3>
     <div class="cmd-block">
         <code><span class="comment"># Nmap Redis</span>
@@ -688,7 +689,7 @@ nmap -p 6379 --script=redis-info &lt;IP&gt;
 redis-cli -h &lt;IP&gt;
 INFO</code>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost: Database izložena internetu</h4>
         <p><strong>Opis: </strong> Database port dostupan sa javne mreže.</p>
@@ -696,7 +697,7 @@ INFO</code>
         <p class="fix">Preporuka:  Bind na localhost, koristiti firewall, VPN ili SSH tunnel za pristup.</p>
         <span class="tag tag-critical">Critical</span>
     </div>
-
+    
     <div class="vulnerability">
         <h4>⚠️ Ranjivost: Default/Empty Database Credentials</h4>
         <p><strong>Opis: </strong> Database koristi default kredencijale ili nema lozinku.</p>
@@ -729,7 +730,7 @@ searchsploit -u
 <span class="comment"># https://cve.mitre.org</span>
 <span class="comment"># https://vulners.com</span></code>
     </div>
-
+    
     <p style="margin-top: 15px; color: #555; background:  #fffbe6; padding: 15px; border-radius: 6px; border-left: 4px solid #f39c12;">
         <strong>📝 Napomena:</strong> Kada pronađeš verziju servisa, pretraži CVE baze. 
         Dokumentuj:  "Apache 2.4.49 - CVE-2021-41773 (Path Traversal, CVSS 7.5)". 
@@ -841,6 +842,101 @@ searchsploit -u
             <td>Ažurirati na najnoviju verziju</td>
         </tr>
     </table>
+</section>
+
+<!-- SECTION 13: LOCAL ENUMERATION -->
+<section class="section" id="local">
+    <h2>🧠 13. Lokalna enumeracija &amp; sistemi</h2>
+
+    <h3>Portovi i servisi</h3>
+    <div class="cmd-block">
+        <code><span class="comment"># Prikaz aktivnih portova i procesa</span>
+sudo netstat -tulnp
+
+<span class="comment"># Alternativni prikaz koristeći lsof</span>
+sudo lsof -i -P -n
+
+<span class="comment"># Nmap za otkrivanje portova i verzija servisa</span>
+sudo nmap -sV &lt;IP_kali_VM&gt;
+
+<span class="comment"># Moderni alat ss (zvanična zamjena za netstat)</span>
+sudo ss -tulwn</code>
+    </div>
+
+    <div class="vulnerability">
+        <h4>⚠️ Ranjivost: Nešifrovane usluge i zastarjele verzije</h4>
+        <p><strong>Opis:</strong> Portovi 21 (FTP) i 80 (HTTP) koriste čist tekst; zastarjeli servisi kao što su stari Apache, SSH, Samba imaju poznate ranjivosti.</p>
+        <p class="impact">Utjecaj: Otkrivanje i krađa lozinki u mreži, remote code execution, prelazak privilegija.</p>
+        <p class="fix">Preporuka: Koristiti enkriptovane alternative poput FTPS/SFTP i HTTPS; redovno ažurirati servise (Apache/Nginx, OpenSSH, Samba) i ukloniti nepotrebne servise.</p>
+        <span class="tag tag-high">High</span>
+    </div>
+
+    <h3>Procesi i pokrenuti programi</h3>
+    <div class="cmd-block">
+        <code><span class="comment"># Prikaz svih procesa</span>
+ps aux
+
+<span class="comment"># Ispis PID, korisnika i komande</span>
+ps -eo pid,uid,cmd
+
+<span class="comment"># Filtriraj procese po nazivu (primjeri)</span>
+ps aux | grep ssh
+ps aux | grep apache</code>
+    </div>
+
+    <div class="vulnerability">
+        <h4>⚠️ Ranjivost: Sumnjivi procesi i zlonamjerni softver</h4>
+        <p><strong>Opis:</strong> Nepoznati procesi ili oni koji se pokreću s root privilegijama mogu biti backdoor ili malware.</p>
+        <p class="impact">Utjecaj: Kompromitacija sistema, curenje podataka, lateralno kretanje napadača.</p>
+        <p class="fix">Preporuka: Redovno pregledati listu procesa, identifikovati nepoznate binarne fajlove, onemogućiti i ukloniti nepotrebne servise.</p>
+        <span class="tag tag-medium">Medium</span>
+    </div>
+
+    <h3>Datoteke i permisije</h3>
+    <div class="cmd-block">
+        <code><span class="comment"># SUID binarne datoteke (moguća eskalacija privilegija)</span>
+find / -perm -4000 2&gt;/dev/null
+
+<span class="comment"># Provjera kritičnih sistemskih fajlova</span>
+ls -l /etc/passwd
+ls -l /etc/shadow
+ls -l /etc/ssh/sshd_config
+
+<span class="comment"># Opća pretraga</span>
+find / -name "*.sh" 2&gt;/dev/null
+find /var/www/html -type f
+locate *.conf
+sudo updatedb</code>
+    </div>
+
+    <div class="vulnerability">
+        <h4>⚠️ Ranjivost: Nepravilne permisije i SUID/SGID datoteke</h4>
+        <p><strong>Opis:</strong> Datoteke sa SUID/SGID bitom se izvršavaju s privilegijama vlasnika (često root). Pogrešno postavljene permisije sistemskih fajlova omogućavaju čitanje/izmjenu osjetljivih podataka.</p>
+        <p class="impact">Utjecaj: Napadač može dobiti root pristup, ukrasti hashove lozinki, mijenjati SSH konfiguraciju.</p>
+        <p class="fix">Preporuka: Ukloniti nepotrebne SUID/SGID bitove, ograničiti permisije na /etc/shadow (0600) i druge osjetljive fajlove, redovno provjeravati novokreirane SUID binarne.</p>
+        <span class="tag tag-high">High</span>
+    </div>
+
+    <h3>Konfiguracijske datoteke</h3>
+    <div class="cmd-block">
+        <code><span class="comment"># Provjera Apache konfiguracije</span>
+cat /etc/apache2/apache2.conf
+
+<span class="comment"># Provjera nginx konfiguracije</span>
+cat /etc/nginx/nginx.conf
+
+<span class="comment"># FTP konfiguracija (provjeri anonymous_enable)</span>
+cat /etc/vsftpd.conf</code>
+    </div>
+
+    <div class="vulnerability">
+        <h4>⚠️ Ranjivost: Nesigurne postavke servisa</h4>
+        <p><strong>Opis:</strong> Konfiguracijski fajlovi mogu otkriti omogućeni anonymous FTP, lošu SSL/TLS konfiguraciju ili dozvoljen root login preko SSH.</p>
+        <p class="impact">Utjecaj: Pristup osjetljivim podacima bez autentikacije, TLS downgrade, brute-force root naloga.</p>
+        <p class="fix">Preporuka: Onemogućiti anonymous_enable u vsftpd.conf, onemogućiti root login i password autentikaciju u sshd_config, koristiti secure ciphers u web serverima.</p>
+        <span class="tag tag-medium">Medium</span>
+    </div>
+
 </section>
 
 <footer>
