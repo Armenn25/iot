@@ -253,6 +253,11 @@ dnsrecon -d example.com -t std</code>
         <code><span class="comment"># Brzi sken top 1000 portova</span>
 nmap -Pn --top-ports 1000 -sS -sV -O &lt;IP&gt;
 
+sudo nmap -sS -sV -O --top-ports 1000 -Pn -n --reason -T4 --open <IP></IP>
+(samo imaj na umu: --open će sakriti closed/filtered, pa ga nekad izbaci ako ti treba kompletna slika).
+
+sudo nmap -p 22,80,445 -sC -sV --open -T4 -Pn -n <IP>DETALJNIJE O OTKRIVENIM PORTOVIMA
+
 <span class="comment"># Full port sken (svih 65535)</span>
 nmap -Pn -p- -sS -sV &lt;IP&gt;
 
@@ -260,7 +265,12 @@ nmap -Pn -p- -sS -sV &lt;IP&gt;
 nmap -A &lt;IP&gt;
 
 <span class="comment"># UDP sken (sporije, ali važno)</span>
-nmap -sU --top-ports 100 &lt;IP&gt;
+nmap -sU --top-ports 100 &lt;IP&gt
+sudo nmap -sU --top-ports 100 -Pn -n --reason -T3 <IP>
+
+sudo nmap -p 22-sV --version-intensity 7 -sC -T3 -Pn -n <IP>  preciznija identifikacija verzija
+
+sudo nmap -p --script "safe,vuln" -sV -T4 -Pn -n <IP>
 
 <span class="comment"># Sken bez pinga (firewall bypass)</span>
 nmap -Pn -sS -p 1-65535 &lt;IP&gt;</code>
