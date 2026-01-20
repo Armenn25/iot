@@ -168,6 +168,10 @@
         <code><span class="comment"># Informacije o domeni, vlasniku, registraru</span>
 whois example.com
 
+msfconsole
+searchsploit
+
+
 <span class="comment"># IP WHOIS</span>
 whois 192.168.1.1</code>
     </div>
@@ -199,6 +203,10 @@ theHarvester -d example.com -b all</code>
         <code><span class="comment"># Svi DNS zapisi</span>
 dig example. com ANY +short
 echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
+
+sudo ip addr flush dev eth0
+sudo ip addr add <ip> dev eth0
+
 <span class="comment"># A record (IPv4)</span>
 dig A example.com +short
 
@@ -258,6 +266,8 @@ sudo nmap -sS -sV -O --top-ports 1000 -Pn -n --reason -T4 --open <IP></IP>
 
 sudo nmap -p 22,80,445 -sC -sV --open -T4 -Pn -n <IP>DETALJNIJE O OTKRIVENIM PORTOVIMA
 
+
+
 <span class="comment"># Full port sken (svih 65535)</span>
 nmap -Pn -p- -sS -sV &lt;IP&gt;
 
@@ -308,7 +318,18 @@ nmap -sC -sV &lt;IP&gt;</code>
         </tr>
         <tr><td>21</td><td>FTP</td><td>Anonymous login, clear-text credentials</td></tr>
         <tr><td>22</td><td>SSH</td><td>Brute-force, slabi algoritmi</td></tr>
-        <tr><td>23</td><td>Telnet</td><td>Clear-text, deprecated</td></tr>
+        <tr><td>23</td><td>Telnet</td><td>ugasiti Telnet ili ograničiti pristup (firewall/VPN),
+
+
+preći na SSH,
+
+
+promijeniti lozinke, ukloniti default/poznate naloge,
+
+
+uvesti lockout / rate limiting / MFA gdje ima smisla.
+
+</td></tr>
         <tr><td>25</td><td>SMTP</td><td>Open relay, spam</td></tr>
         <tr><td>53</td><td>DNS</td><td>Zone transfer, DNS amplification</td></tr>
         <tr><td>80/443</td><td>HTTP/S</td><td>Web vulnerabilities</td></tr>
