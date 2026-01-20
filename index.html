@@ -198,7 +198,7 @@ theHarvester -d example.com -b all</code>
     <div class="cmd-block">
         <code><span class="comment"># Svi DNS zapisi</span>
 dig example. com ANY +short
-
+echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
 <span class="comment"># A record (IPv4)</span>
 dig A example.com +short
 
